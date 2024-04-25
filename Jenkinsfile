@@ -12,7 +12,6 @@ pipeline {
             steps {
                 echo "Building.."
                 sh '''
-                echo "env.JOB_NAME"
                 python3 sample.py
                 '''
             }
@@ -24,6 +23,7 @@ pipeline {
         }
         stage('Deliver') {
             steps {
+                echo "${env.JOB_NAME}"
                 echo "${currentBuild.getPreviousBuild().result}"
                 echo 'Deliver....'
             }
