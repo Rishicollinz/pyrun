@@ -23,22 +23,24 @@ pipeline {
         }
         stage('Deliver') {
             steps {
+                def lastSuccessfulBuild = currentBuild.getPreviousBuild()
+                echo "${lastSuccessfulBuild.result}"
                 echo 'Deliver....'
             }
         }
     }
-    post {
-        failure {
-            script {
-                def lastSuccessfulBuild = currentBuild.getPreviousBuild()
+    // post {
+    //     failure {
+    //         script {
+    //             def lastSuccessfulBuild = currentBuild.getPreviousBuild()
                 
-                if (lastSuccessfulBuild != null && lastSuccessfulBuild.result == 'SUCCESS') {
-                    echo "Reverting to last successful build: ${lastSuccessfulBuild.number}"
-                    build(job: "${env.JOB_NAME}", parameters: [], propagate: false, quietPeriod: 0)
-                } else {
-                    error "No previous successful build found."
-                }
-            }
-        }
-    }
+    //             if (lastSuccessfulBuild != null && lastSuccessfulBuild.result == 'SUCCESS') {
+    //                 echo "Reverting to last successful build: ${lastSuccessfulBuild.number}"
+    //                 build(job: "${env.JOB_NAME}", parameters: [], propagate: false, quietPeriod: 0)
+    //             } else {
+    //                 error "No previous successful build found."
+    //             }
+    //         }
+    //     }
+    // }
 }
