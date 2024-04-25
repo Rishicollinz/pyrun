@@ -60,7 +60,7 @@ pipeline {
             steps {
                 echo "Building.."
                 sh '''
-                python3 m.py
+                python3 sample.py
                 '''
             }
         }
