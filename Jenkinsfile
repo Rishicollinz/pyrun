@@ -36,7 +36,7 @@ pipeline {
                 
                 if (lastSuccessfulBuild != null && lastSuccessfulBuild.result == 'SUCCESS') {
                     echo "Reverting to last successful build: ${lastSuccessfulBuild.number}"
-                    lastSuccessfulBuild.run()
+                    build(job: "${env.JOB_NAME}", parameters: [[$class: 'IntParameterValue', name: 'BUILD_NUMBER', value: lastSuccessfulBuild.number]], propagate: false, quietPeriod: 0)
                     //build(job: "${env.JOB_NAME}", parameters: [], propagate: false, quietPeriod: 0)
                 } else {
                     error "No previous successful build found."
