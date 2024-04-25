@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo "Building.."
                 sh '''
-                python3 f.py
+                python3 sample.py
                 '''
             }
         }
@@ -36,7 +36,8 @@ pipeline {
                 
                 if (lastSuccessfulBuild != null && lastSuccessfulBuild.result == 'SUCCESS') {
                     echo "Reverting to last successful build: ${lastSuccessfulBuild.number}"
-                    build(job: "${env.JOB_NAME}", parameters: [[$class: 'IntParameterValue', name: 'BUILD_NUMBER', value: lastSuccessfulBuild.number]], propagate: false, quietPeriod: 0)
+                    build job: env.JOB_NAME, parameters: [[$class: 'StringParameterValue', name: 'BUILD_NUMBER', value: lastSuccessfulBuild.number.toString()]], propagate: false
+                    //build(job: "${env.JOB_NAME}", parameters: [[$class: 'IntParameterValue', name: 'BUILD_NUMBER', value: lastSuccessfulBuild.number]], propagate: false, quietPeriod: 0)
                     //build(job: "${env.JOB_NAME}", parameters: [], propagate: false, quietPeriod: 0)
                 } else {
                     error "No previous successful build found."
