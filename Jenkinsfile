@@ -12,7 +12,8 @@ pipeline {
             steps {
                 echo "Building.."
                 sh '''
-                python3 f.py
+                echo "env.JOB_NAME"
+                python3 sample.py
                 '''
             }
         }
