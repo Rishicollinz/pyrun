@@ -1,1 +1,1 @@
-print("hello world!, Rishi chk!");
+print("hello world!, Rishi !");
