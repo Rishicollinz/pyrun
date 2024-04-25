@@ -23,8 +23,7 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-                def lastSuccessfulBuild = currentBuild.getPreviousBuild()
-                echo "${lastSuccessfulBuild.result}"
+                echo "${currentBuild.getPreviousBuild().result}"
                 echo 'Deliver....'
             }
         }
