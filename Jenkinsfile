@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo "Building.."
                 sh '''
-                python3 sample.py
+                python3 f.py
                 '''
             }
         }
@@ -28,18 +28,18 @@ pipeline {
             }
         }
     }
-    // post {
-    //     failure {
-    //         script {
-    //             def lastSuccessfulBuild = currentBuild.getPreviousBuild()
+    post {
+        failure {
+            script {
+                def lastSuccessfulBuild = currentBuild.getPreviousBuild()
                 
-    //             if (lastSuccessfulBuild != null && lastSuccessfulBuild.result == 'SUCCESS') {
-    //                 echo "Reverting to last successful build: ${lastSuccessfulBuild.number}"
-    //                 build(job: "${env.JOB_NAME}", parameters: [], propagate: false, quietPeriod: 0)
-    //             } else {
-    //                 error "No previous successful build found."
-    //             }
-    //         }
-    //     }
-    // }
+                if (lastSuccessfulBuild != null && lastSuccessfulBuild.result == 'SUCCESS') {
+                    echo "Reverting to last successful build: ${lastSuccessfulBuild.number}"
+                    build(job: "${env.JOB_NAME}", parameters: [], propagate: false, quietPeriod: 0)
+                } else {
+                    error "No previous successful build found."
+                }
+            }
+        }
+    }
 }
